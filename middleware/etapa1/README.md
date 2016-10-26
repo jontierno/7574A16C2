@@ -16,7 +16,7 @@ Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución.
 
 ## Inicializar los recursos compartidos 
 
-Antes de poder ejecutar los traductores y productores es necesario iniciar los recursos compartidos en la computadora donde se lanzarán los productores.
+Antes de poder ejecutar los traductores y productores es necesario iniciar los recursos compartidos.
 ```{r, engine='bash'}
 ./Middleware 
 ```
