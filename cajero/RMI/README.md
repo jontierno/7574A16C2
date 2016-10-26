@@ -1,6 +1,6 @@
 # CAJERO RMI
 
-El siguiente repositorio contiene implementaciones de un cajero via RMI.
+En esta implementación se utiliza la tecnología RMI y lenguaje Java para que los clientes tengan acceso remoto al servidor que maneja las operaciones sobre las cuentas.
 
 ## Build de la solución
 
