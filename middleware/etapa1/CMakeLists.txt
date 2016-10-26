@@ -1,0 +1,6 @@
+cmake_minimum_required (VERSION 2.6)
+project (Jeringoso)
+add_executable(Productor productor.cxx)
+add_executable(Traductor traductor.cxx)
+add_executable(Middleware middleware.cxx)
+add_executable(Destructor destructor.cxx)
