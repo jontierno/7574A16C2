@@ -11,12 +11,6 @@ La construcción de este sistema se hace mediante le uso de gradle, para ello es
 ```
 Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución en el directorio *build*.
 
-## Generar projectos Eclipse
-
-```{r, engine='bash'}
-./gradlew eclipse 
-```
-Una vez hecho esto es posible importar los proyectos dentro de eclipse.
 
 ## Ejecutando el servidor en segundo plano
 
@@ -30,3 +24,11 @@ java -jar build/CajeroServer.jar &
 java -jar build/CajeroClient.jar
 ```
 La aplicación desplegará un menú con las operaciones disponibles.
+
+
+## Generar projectos Eclipse (opcional)
+
+```{r, engine='bash'}
+./gradlew eclipse 
+```
+Una vez hecho esto es posible importar los proyectos dentro de eclipse.
