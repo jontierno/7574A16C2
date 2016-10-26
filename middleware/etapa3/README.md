@@ -1,6 +1,6 @@
-# 7574MIDDLEWARE
+# Etapa 3
 
-El siguiente repositorio contiene implementaciones de un middleware para traducir una palabra al [geringoso](https://es.wikipedia.org/wiki/Jerigonza)
+En esta etapa el middleware permite conectar multiples productores en una computadora con multiples clientes distribuidos en diferentes computadoras.
 
 ## Build de la solución
 

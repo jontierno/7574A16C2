@@ -1,6 +1,5 @@
-# 7574MIDDLEWARE
+# Etapa 2
 
-El siguiente repositorio contiene implementaciones de un middleware para traducir una palabra al [geringoso](https://es.wikipedia.org/wiki/Jerigonza)
 
 ## Build de la solución
 
