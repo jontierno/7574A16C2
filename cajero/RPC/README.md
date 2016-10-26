@@ -16,6 +16,13 @@ Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución.
 
 ## Ejecución de la solución
 
+### Ejecutando servicio RPC
+Es necesario que el servicio de RPC se encuentre instalado y corriendo
+
+```{r, engine='bash'}
+	sudo service rpcbind start
+```
+
 ### Ejecutando el sevidor
 
 ```{r, engine='bash'}
