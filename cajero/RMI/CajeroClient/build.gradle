@@ -1,0 +1,17 @@
+apply plugin: 'application'
+mainClassName = 'ar.uba.fi.distribuidos1.cajero.client.CajeroClient'
+
+dependencies {	
+	extraLibs project(':CajeroInterface')
+	
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName,
+                   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
+    }
+}
+
+
