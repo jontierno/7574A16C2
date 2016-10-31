@@ -1,0 +1,22 @@
+module Example {
+	struct ResultadoOperacion { 
+		short resultado; 
+		long saldo; 
+	}; 
+	struct Operacion { 
+		string tipo; 
+		long cantidad; 
+	};
+	struct Historial { 
+		short resultado; 
+		Operacion operaciones[10]; 
+	};
+    interface Cajero {
+        ResultadoOperacion crear(in short id);
+	ResultadoOperacion saldo(in short id);
+        ResultadoOperacion depositar(in short id, in long cant);
+        ResultadoOperacion extraer(in short id, in long cant);
+        Historial consultaMovimientos(in short id);
+
+    };
+};

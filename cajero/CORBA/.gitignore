@@ -1,0 +1,5 @@
+*.pyc
+Example/
+Example__POA/
+*_idl.py
+bd/
