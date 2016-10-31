@@ -5,10 +5,10 @@ from omniORB import CORBA
 import CosNaming, Example
 import constantes as ctes
 
-# Initialise the ORB
+# Iniciar el ORB
 orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 
-# Obtain a reference to the root naming context
+# Obtener la referencia al contexto de nombres root 
 obj = orb.resolve_initial_references("NameService")
 rootContext = obj._narrow(CosNaming.NamingContext)
 
@@ -16,7 +16,7 @@ if rootContext is None:
     print "Failed to narrow the root naming context"
     sys.exit(1)
 
-# Resolve the name "test.my_context/ExampleEcho.Object"
+# Resolver el contexto "test.my_context/ExampleCajero.Object"
 name = [CosNaming.NameComponent("test", "my_context"), CosNaming.NameComponent("ExampleCajero", "Object")]
 try:
     obj = rootContext.resolve(name)
@@ -24,12 +24,14 @@ except CosNaming.NamingContext.NotFound, ex:
     print "Name not found"
     sys.exit(1)
 
-# Narrow the object to an Example::Cajero
+# Casteo a un Example::Cajero
 cajero = obj._narrow(Example.Cajero)
 if cajero is None:
     print "Object reference is not an Example::Cajero"
     sys.exit(1)
 
+
+#Funciones auxiliares
 def ingresarCuenta():
   cont = True
   cuenta = 0
@@ -91,7 +93,9 @@ def extraer():
 
 def movimientos():
    cuenta = ingresarCuenta()
-   resultado = cajero.movimientos(cuenta)
+   resultado = cajero.consultaMovimientos(cuenta)
+   print("")
+   for p in resultado.operaciones: print "Tipo: {}        Cantidad: {}".format(p.tipo, p.cantidad)
 
 ans=True
 while ans:

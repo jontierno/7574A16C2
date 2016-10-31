@@ -9,7 +9,7 @@ module Example {
 	};
 	struct Historial { 
 		short resultado; 
-		Operacion operaciones[10]; 
+		sequence<Operacion> operaciones;
 	};
     interface Cajero {
         ResultadoOperacion crear(in short id);

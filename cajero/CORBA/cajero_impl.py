@@ -10,7 +10,8 @@ BD_DIR = "bd"
 SALDO_FILE = "bd/{}_saldo"
 MOVIM_FILE = "bd/{}_movs"
 OP_TEMPLATE = "{}, {}\n"
-# Define an implementation of the Cajero interface
+
+# Defino la implementación de la interfaz Cajero
 class Cajero_i (Example__POA.Cajero):
     def crear(self, id):
         saldo_file = SALDO_FILE.format(id)
@@ -69,19 +70,28 @@ class Cajero_i (Example__POA.Cajero):
         return Example.ResultadoOperacion (ctes.COD_SUCCESS, saldo)
 
     def consultaMovimientos(self, id):
-        a = ResultadoOperacion(0,0)
-        return a
+        a = []
+        saldo_file = SALDO_FILE.format(id)
+        mov_file = MOVIM_FILE.format(id)
+        if not os.path.exists(saldo_file):
+            return Example.Historial (ctes.COD_CUENTA_INEXISTENTE, a)
+        mf = open(mov_file,'r')
+        for line in mf:
+            b = line.split(',')
+            a.insert(0,Example.Operacion(b[0],long(b[1])))
+        mf.close()
+        
+        return Example.Historial(ctes.COD_SUCCESS, a [0:10])
 
-
-# Initialize the ORB and find the root POA
+# Inicializar el ORB y buscar el root POA
 orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 poa = orb.resolve_initial_references("RootPOA")
 
-# Create an instance of Cajero_i and an Cajero object reference
+# Crear una instancia de interfaz Cajero_i y la referencia al objeto Cajero
 ei = Cajero_i()
 eo = ei._this()
 
-# Obtain a reference to the root naming context
+# Obtener una referencia al contexto de nombres root 
 obj = orb.resolve_initial_references("NameService")
 rootContext = obj._narrow(CosNaming.NamingContext)
 
@@ -89,7 +99,7 @@ if rootContext is None:
     print "Failed to narrow the root naming context"
     sys.exit(1)
 
-# Bind a context named "test.my_context" to the root context
+# Bindeo del contexto "test.my_context" al contexto root
 name = [CosNaming.NameComponent("test", "my_context")]
 
 try:
@@ -103,7 +113,7 @@ except CosNaming.NamingContext.AlreadyBound, ex:
         print "test.mycontext exists but is not a NamingContext"
         sys.exit(1)
 
-# Bind the Cajero object to the test context
+# Bind del objeto Cajero al contexto de test
 name = [CosNaming.NameComponent("ExampleCajero", "Object")]
 
 try:
@@ -113,12 +123,13 @@ except CosNaming.NamingContext.AlreadyBound:
     testContext.rebind(name, eo)
     print "ExampleCajero binding already existed -- rebound"
 
-# Activate the POA
+# Activaar el POA
 poaManager = poa._get_the_POAManager()
 poaManager.activate()
+
 if not os.path.exists(BD_DIR):
     print("El directorio BD no existe, sera creado")
     os.makedirs(BD_DIR)
 
-# Block for ever (or until the ORB is shut down)
+# Corro el orb
 orb.run()
