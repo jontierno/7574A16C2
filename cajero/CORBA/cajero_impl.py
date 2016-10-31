@@ -6,6 +6,7 @@ import CosNaming, Example, Example__POA
 import os
 import constantes as ctes
 
+BD_DIR = "bd"
 SALDO_FILE = "bd/{}_saldo"
 MOVIM_FILE = "bd/{}_movs"
 OP_TEMPLATE = "{}, {}\n"
@@ -100,6 +101,9 @@ except CosNaming.NamingContext.AlreadyBound:
 # Activate the POA
 poaManager = poa._get_the_POAManager()
 poaManager.activate()
+if not os.path.exists(BD_DIR):
+    print("El directorio BD no existe, sera creado")
+    os.makedirs(BD_DIR)
 
 # Block for ever (or until the ORB is shut down)
 orb.run()

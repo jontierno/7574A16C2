@@ -57,27 +57,26 @@ def crear():
   cuenta = ingresarCuenta()
   ans = cajero.crear(cuenta)
   if ans.resultado == ctes.COD_SUCCESS:
-    print("Cuenta creada exitosamente\n")
+    print("\nCuenta creada exitosamente\n")
   if ans.resultado == ctes.COD_CUENTA_EXISTENTE:
-    print("La cuenta ya existe\n")
+    print("\nLa cuenta ya existe\n")
 
 def saldo():
   cuenta = ingresarCuenta()
   ans = cajero.saldo(cuenta)
   if ans.resultado == ctes.COD_SUCCESS:
-    print("La cuenta {} tiene un saldo de {} \n".format(cuenta, ans.saldo))
+    print("\nLa cuenta {} tiene un saldo de {} \n".format(cuenta, ans.saldo))
   if ans.resultado == ctes.COD_CUENTA_INEXISTENTE:
-    print("La cuenta {} no existe\n".format(cuenta))
+    print("\nLa cuenta {} no existe\n".format(cuenta))
 
 def depositar():
    cuenta = ingresarCuenta()
    cantidad = ingresarCantidad()
    ans = cajero.depositar(cuenta,cantidad)
    if ans.resultado == ctes.COD_SUCCESS:
-    print("La cuenta {} tiene un saldo de {} \n".format(cuenta, ans.saldo))
+    print("\nLa cuenta {} tiene un saldo de {} \n".format(cuenta, ans.saldo))
    if ans.resultado == ctes.COD_CUENTA_INEXISTENTE:
-    print("La cuenta {} no existe\n".format(cuenta))
-   print(ans)
+    print("\nLa cuenta {} no existe\n".format(cuenta))
 
 def extraer():
    cuenta = ingresarCuenta()
