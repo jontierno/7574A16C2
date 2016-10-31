@@ -49,9 +49,24 @@ class Cajero_i (Example__POA.Cajero):
         return Example.ResultadoOperacion (ctes.COD_SUCCESS, saldo)
     
     def extraer(self, id, cantidad):
-        a = ResultadoOperacion(0,0)
-        return a
-    
+        saldo_file = SALDO_FILE.format(id)
+        mov_file = MOVIM_FILE.format(id)
+        if not os.path.exists(saldo_file):
+            return Example.ResultadoOperacion (ctes.COD_CUENTA_INEXISTENTE, 0)
+        sf = open(saldo_file, 'r+')
+        saldo = int(sf.readline())
+        sf.close()
+        if saldo < cantidad:
+           return Example.ResultadoOperacion (ctes.COD_SALDO_INSUF, saldo) 
+
+        saldo = saldo -cantidad
+        sf = open(saldo_file, 'w')
+        sf.write(str(saldo))
+        sf.close()
+        mf = open(mov_file,'a')
+        mf.write(OP_TEMPLATE.format(ctes.OP_EXTRACCION, cantidad))
+        mf.close()
+        return Example.ResultadoOperacion (ctes.COD_SUCCESS, saldo)
 
     def consultaMovimientos(self, id):
         a = ResultadoOperacion(0,0)

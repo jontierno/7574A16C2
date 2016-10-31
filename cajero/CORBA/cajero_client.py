@@ -81,7 +81,13 @@ def depositar():
 def extraer():
    cuenta = ingresarCuenta()
    cantidad = ingresarCantidad()
-   resultado = cajero.extraer(cuenta,cantidad)
+   ans = cajero.extraer(cuenta,cantidad)
+   if ans.resultado == ctes.COD_SUCCESS:
+    print("\nLa cuenta {} tiene un saldo de {} \n".format(cuenta, ans.saldo))
+   if ans.resultado == ctes.COD_CUENTA_INEXISTENTE:
+    print("\nLa cuenta {} no existe\n".format(cuenta))
+   if ans.resultado == ctes.COD_SALDO_INSUF:
+    print("\nLa cuenta {} no tiene saldo suficiente\n".format(cuenta))
 
 def movimientos():
    cuenta = ingresarCuenta()
