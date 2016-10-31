@@ -93,9 +93,12 @@ def extraer():
 
 def movimientos():
    cuenta = ingresarCuenta()
-   resultado = cajero.consultaMovimientos(cuenta)
-   print("")
-   for p in resultado.operaciones: print "Tipo: {}        Cantidad: {}".format(p.tipo, p.cantidad)
+   ans = cajero.consultaMovimientos(cuenta)
+   if ans.resultado == ctes.COD_SUCCESS:
+     print("")
+     for p in ans.operaciones: print "Tipo: {}        Cantidad: {}".format(p.tipo, p.cantidad)
+   if ans.resultado == ctes.COD_CUENTA_INEXISTENTE:
+    print("\nLa cuenta {} no existe\n".format(cuenta))
 
 ans=True
 while ans:
