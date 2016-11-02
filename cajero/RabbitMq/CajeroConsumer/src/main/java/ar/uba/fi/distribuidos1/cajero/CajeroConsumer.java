@@ -18,19 +18,22 @@ public class CajeroConsumer {
 
     private static String crear(Integer idCuenta) {
         if (Cuenta.exist(idCuenta)) {
-            return String.format(Constantes.ANSWER_CODE_CUENTA_EXISTENTE,
-                    Constantes.ANSWER_CODE_IO_ERROR,
-                    0);
+            System.out.printf("La cuenta %d ya existe\n", idCuenta);
+            return String.format(Constantes.ANSWER_SIMPLE_TEMP,
+                    Constantes.ANSWER_CODE_CUENTA_EXISTENTE,
+                    "0");
         }
         try {
             new Cuenta(idCuenta);
-            return String.format(Constantes.ANSWER_CODE_SUCCESS,
-                    Constantes.ANSWER_CODE_IO_ERROR,
-                    0);
-        } catch (IOException e) {
+            System.out.printf("Se creo correctamente la cuenta %d\n", idCuenta);
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_IO_ERROR,
-                    0);
+                    "0");
+        } catch (IOException e) {
+            System.out.printf("Error I/O\n");
+            return String.format(Constantes.ANSWER_SIMPLE_TEMP,
+                    Constantes.ANSWER_CODE_IO_ERROR,
+                    "0");
         }
 
     }
@@ -40,17 +43,22 @@ public class CajeroConsumer {
         try {
             validarCuenta(idCuenta);
             Cuenta cuenta = new Cuenta(idCuenta);
-            return String.format(Constantes.ANSWER_CODE_SUCCESS,
+
+            String saldo = cuenta.obtenerSaldo().toString();
+            System.out.printf("La cuenta %d tiene un saldo de %s\n", idCuenta, saldo);
+            return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_SUCCESS,
-                    cuenta.obtenerSaldo().toString());
+                    saldo);
         } catch (CuentaInexistenteException e) {
+            System.out.printf("La cuenta %d no existe\n" , idCuenta);
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_CUENTA_INEXISTENTE,
-                    0);
+                    "0");
         } catch (IOException e) {
+            System.out.printf("Error I/O\n");
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_IO_ERROR,
-                    0);
+                    "0");
         }
     }
 
@@ -66,17 +74,20 @@ public class CajeroConsumer {
                     .stream()
                     .map(m -> m.getTipo() + Constantes.MOVEMENTE_INNER_DELIM + m.getCantidad().toString())
                     .collect(Collectors.joining(Constantes.MOVEMENT_DELIMITER));
-            return String.format(Constantes.ANSWER_CODE_SUCCESS,
-                    Constantes.ANSWER_MOVS_TEMP,
+            System.out.printf("La cuenta %d consulta movimientos\n", idCuenta);
+            return String.format(Constantes.ANSWER_SIMPLE_TEMP,
+                    Constantes.ANSWER_CODE_SUCCESS,
                     result);
         } catch (CuentaInexistenteException e) {
+            System.out.printf("La cuenta %d no existe\n" , idCuenta);
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_CUENTA_INEXISTENTE,
-                    0);
+                    "0");
         } catch (IOException e) {
+            System.out.printf("Error I/O\n");
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_IO_ERROR,
-                    0);
+                    "0");
         }
     }
 
@@ -86,21 +97,26 @@ public class CajeroConsumer {
             Cuenta cuenta = new Cuenta(idCuenta);
             Extraccion e = new Extraccion(cantidad);
             e.operar(cuenta);
-            return String.format(Constantes.ANSWER_CODE_SUCCESS,
+            String saldo = cuenta.obtenerSaldo().toString();
+            System.out.printf("Se extraen %d de la cuenta %d y queda un saldo de %s\n", cantidad, idCuenta,saldo);
+            return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_SUCCESS,
-                    cuenta.obtenerSaldo().toString());
+                    saldo);
         } catch (CuentaInexistenteException e) {
+            System.out.printf("La cuenta %d no existe\n" , idCuenta);
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_CUENTA_INEXISTENTE,
-                    0);
+                    "0");
         }catch (SaldoInsuficienteException e) {
+            System.out.printf("La cuenta %d tiene saldo suficiente\n" , idCuenta);
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_SALDO_INSUF,
-                    0);
+                    "0");
         } catch (IOException e) {
+            System.out.printf("Error I/O\n");
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_IO_ERROR,
-                    0);
+                    "0");
         }
 
     }
@@ -111,17 +127,21 @@ public class CajeroConsumer {
             Cuenta cuenta = new Cuenta(idCuenta);
             Deposito d = new Deposito(cantidad);
             d.operar(cuenta);
-            return String.format(Constantes.ANSWER_CODE_SUCCESS,
+            String saldo = cuenta.obtenerSaldo().toString();
+            System.out.printf("Se extraen %d de la cuenta %d y queda un saldo de %s\n", cantidad, idCuenta,saldo);
+            return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_SUCCESS,
-                    cuenta.obtenerSaldo().toString());
+                    saldo);
         } catch (CuentaInexistenteException e) {
+            System.out.printf("La cuenta %d no existe\n" , idCuenta);
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_CUENTA_INEXISTENTE,
-                    0);
+                    "0");
         } catch (IOException e) {
+            System.out.printf("Error I/O\n");
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
                     Constantes.ANSWER_CODE_IO_ERROR,
-                    0);
+                    "0");
         }
     }
 
@@ -182,11 +202,9 @@ public class CajeroConsumer {
             try {
                 delivery = consumer.nextDelivery();
                 String body = new String(delivery.getBody());
-                System.out.format("Recibido %s\n", body);
                 String[] split = body.split(Constantes.MESSAGE_DELIMITER);
                 String routingKey = String.format(Constantes.ANSWER_ROUTING_TEMP, split[0]);
                 String answer = operar(split);
-                System.out.println(Constantes.EXCHANGE_NAME + split[0] + "\n");
                 channel.basicPublish(Constantes.EXCHANGE_NAME + split[0], routingKey,
                         MessageProperties.PERSISTENT_TEXT_PLAIN, answer.getBytes());
             } catch (InterruptedException ie) {

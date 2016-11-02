@@ -20,8 +20,7 @@ public interface Constantes {
 	
 	
 	public static final String ANSWER_ROUTING_TEMP = "respuesta-%s";
-	public static final String ANSWER_SIMPLE_TEMP = "%s"+MESSAGE_DELIMITER+"%d";
-	public static final String ANSWER_MOVS_TEMP = "%s"+MESSAGE_DELIMITER+"%s";
+	public static final String ANSWER_SIMPLE_TEMP = "%s"+MESSAGE_DELIMITER+"%s";
 	
 	
 	public static final String ANSWER_CODE_SUCCESS = "0";
@@ -31,6 +30,6 @@ public interface Constantes {
 	public static final String ANSWER_CODE_IO_ERROR= "4";
 
 
-	public static final String MOVEMENT_DELIMITER = MESSAGE_DELIMITER + MESSAGE_DELIMITER;
+	public static final String MOVEMENT_DELIMITER = "::";
 	public static final String MOVEMENTE_INNER_DELIM = ":";
 }
