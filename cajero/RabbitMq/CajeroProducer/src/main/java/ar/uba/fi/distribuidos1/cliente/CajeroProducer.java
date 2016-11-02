@@ -10,22 +10,35 @@ import java.util.UUID;
 public class CajeroProducer {
 
 
-    private static final UUID uuid = UUID.randomUUID();
+    private static final String uuid = UUID.randomUUID().toString();
+    private static final String MOVEMENT_TEMPLATE = "Tipo: %s       Monto: %s\n";
+    private static String[] send(Channel ch, QueueingConsumer consumer, String message) throws IOException, InterruptedException {
+        ch.basicPublish(Constantes.EXCHANGE_NAME, Constantes.ROUTING_KEY_OP,
+                null, message.getBytes());
+        QueueingConsumer.Delivery delivery =  consumer.nextDelivery();
+        String answ = new String(delivery.getBody());
+        return answ.split(Constantes.MESSAGE_DELIMITER);
+    }
+
+    private static void checkSuccess(String anObject, String format) {
+        if (Constantes.ANSWER_CODE_SUCCESS.equals(anObject)) {
+            System.out.println(format);
+        }
+    }
+
+    private static void checkInexistente(Integer id, String anObject) {
+        if (Constantes.ANSWER_CODE_CUENTA_INEXISTENTE.equals(anObject)) {
+            System.out.println(String.format("La cuenta %d no existe", id));
+        }
+    }
 
     static void crearCuenta(Channel ch, QueueingConsumer consumer, Integer id) {
 
-        String clientId = uuid.toString();
-        String message = String.format(Constantes.MESSAGE_ONLY_ACCOUNT_TEMP, clientId, Constantes.OPERACION_CREAR, id);
+        String message = String.format(Constantes.MESSAGE_ONLY_ACCOUNT_TEMP, uuid, Constantes.OPERACION_CREAR, id);
 
         try {
-            ch.basicPublish(Constantes.EXCHANGE_NAME, Constantes.ROUTING_KEY_OP,
-                    null, message.getBytes());
-            QueueingConsumer.Delivery delivery =  consumer.nextDelivery();
-            String answ = new String(delivery.getBody());
-            String[] split = answ.split(Constantes.MESSAGE_DELIMITER);
-            if (Constantes.ANSWER_CODE_SUCCESS.equals(split[0])) {
-                System.out.println(String.format("La cuenta %d fue creada exitosamente", id));
-            }
+            String[] split = send(ch, consumer, message);
+            checkSuccess(split[0], String.format("La cuenta %d fue creada exitosamente", id));
             if (Constantes.ANSWER_CODE_CUENTA_EXISTENTE.equals(split[0])) {
                 System.out.println(String.format("La cuenta %d ya existe", id));
             }
@@ -36,33 +49,54 @@ public class CajeroProducer {
     }
 
     static void consultarSaldo(Channel ch, QueueingConsumer consumer, Integer id) {
+        String message = String.format(Constantes.MESSAGE_ONLY_ACCOUNT_TEMP, uuid, Constantes.OPERACION_SALDO, id);
+        try {
+            String[] split = send(ch, consumer, message);
+            checkSuccess(split[0], String.format("La cuenta %d tiene un saldo de %d", id, split[1]));
+            checkInexistente(id, split[0]);
+        } catch (IOException | ShutdownSignalException | ConsumerCancelledException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-        // Integer saldo = remote.consultaSaldo(id);
-        // System.out.printf("La cuenta %d tiene un saldo de %d\n", id,saldo);
 
+    private static void generarMovimiento(Channel ch, QueueingConsumer consumer, Integer id, String message) {
+        try {
+            String[] split = send(ch, consumer, message);
+            checkSuccess(split[0], String.format("Operacion exitosa. La cuenta %d tiene un saldo de %d", id, split[1]));
+            checkInexistente(id, split[0]);
+        } catch (IOException | ShutdownSignalException | ConsumerCancelledException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     static void depositar(Channel ch, QueueingConsumer consumer, Integer id, Integer cant) {
 
-        // Integer saldo = remote.operar(id, new Deposito(cant));
-        // System.out.printf("Operacion exitosa. La cuenta %d tiene un saldo de %d\n",
-        // id,saldo);
+        String message = String.format(Constantes.MESSAGE_ONLY_ACCOUNT_TEMP, uuid, Constantes.OPERACION_DEPOSITAR, id);
+        generarMovimiento(ch, consumer, id, message);
 
     }
 
     static void retirar(Channel ch, QueueingConsumer consumer, Integer id, Integer cant) {
-        //
-        // Integer saldo = remote.operar(id, new Extraccion(cant));
-        // System.out.printf("Operacion exitosa. La cuenta %d tiene un saldo de %d\n",
-        // id,saldo);
+        String message = String.format(Constantes.MESSAGE_ONLY_ACCOUNT_TEMP, uuid, Constantes.OPERACION_EXTRAER, id);
+        generarMovimiento(ch, consumer, id, message);
     }
 
     static void movimientos(Channel ch, QueueingConsumer consumer, Integer id) {
+        String message = String.format(Constantes.MESSAGE_ONLY_ACCOUNT_TEMP, uuid, Constantes.OPERACION_MOVIMIENTOS, id);
+        try {
+            String[] split = send(ch, consumer, message);
+            checkInexistente(id, split[0]);
+            String movimientos[] = split[1].split(Constantes.MOVEMENT_DELIMITER);
+            for (int i = 0; i <  movimientos.length; i++) {
+                String fields [] = movimientos[i].split(Constantes.MOVEMENTE_INNER_DELIM);
+                System.out.printf(MOVEMENT_TEMPLATE, fields[0], fields[1]);
+            }
 
-        // List<Movimiento> mvs = remote.consultarMovimientos(id);
-        // for (Movimiento movimiento : mvs) {
-        // System.out.printf("TIPO: %s        CANTIDAD: %d \n",movimiento.getTipo(),movimiento.getCantidad());
-        // }
+        } catch (IOException | ShutdownSignalException | ConsumerCancelledException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void main(String[] args) throws Exception {

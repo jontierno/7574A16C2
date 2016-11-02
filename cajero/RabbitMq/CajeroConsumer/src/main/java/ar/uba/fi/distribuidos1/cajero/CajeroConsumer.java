@@ -64,10 +64,10 @@ public class CajeroConsumer {
             List<Movimiento> movimientos = cuenta.obtenerUltimosMovimientos(10);
             String result = movimientos
                     .stream()
-                    .map(m -> m.getTipo() + Constantes.MOVEMENT_DELIMITER + m.getCantidad().toString())
-                    .collect(Collectors.joining(Constantes.MESSAGE_DELIMITER));
+                    .map(m -> m.getTipo() + Constantes.MOVEMENTE_INNER_DELIM + m.getCantidad().toString())
+                    .collect(Collectors.joining(Constantes.MOVEMENT_DELIMITER));
             return String.format(Constantes.ANSWER_CODE_SUCCESS,
-                    Constantes.ANSWER_CODE_SUCCESS,
+                    Constantes.ANSWER_MOVS_TEMP,
                     result);
         } catch (CuentaInexistenteException e) {
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
