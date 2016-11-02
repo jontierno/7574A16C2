@@ -2,7 +2,7 @@ package ar.uba.fi.distribuidos1.commons;
 
 public interface Constantes {
 	
-	public static final String ROUTING_KEY_OUT = "operacion";
+	public static final String ROUTING_KEY_OP = "operacion";
 	public static final String EXCHANGE_NAME = "myExchange";
 	public static final String QUEUE_NAME = "myQueue";
 	public static final String OPERACION_CREAR = "C";
@@ -12,15 +12,15 @@ public interface Constantes {
 	public static final String OPERACION_MOVIMIENTOS = "M";
 	public static final String MESSAGE_DELIMITER = ";";
 	// UUID; OPERACION
-	public static final String MESSAGE_BASE_TEMP = "{}" + MESSAGE_DELIMITER + "{}";
+	public static final String MESSAGE_BASE_TEMP = "%s" + MESSAGE_DELIMITER + "%s";
 	//UUID;OPERACION;CUENTA
-	public static final String MESSAGE_ONLY_ACCOUNT_TEMP = MESSAGE_BASE_TEMP + MESSAGE_DELIMITER +"{}";
+	public static final String MESSAGE_ONLY_ACCOUNT_TEMP = MESSAGE_BASE_TEMP + MESSAGE_DELIMITER +"%d";
 	//UUID;OPERACION;CUENTA;MONTO
-	public static final String MESSAGE_ACC_AM_TEMP = MESSAGE_ONLY_ACCOUNT_TEMP + MESSAGE_DELIMITER +"{}";
+	public static final String MESSAGE_ACC_AM_TEMP = MESSAGE_ONLY_ACCOUNT_TEMP + MESSAGE_DELIMITER +"%d";
 	
 	
-	public static final String ANSWER_ROUTING_TEMP = "respuesta-{}";
-	public static final String ANSWER_SIMPLE_TEMP = "{}"+MESSAGE_DELIMITER+"{}";
+	public static final String ANSWER_ROUTING_TEMP = "respuesta-%s";
+	public static final String ANSWER_SIMPLE_TEMP = "%s"+MESSAGE_DELIMITER+"%d";
 	
 	
 	public static final String ANSWER_CODE_SUCCESS = "0";

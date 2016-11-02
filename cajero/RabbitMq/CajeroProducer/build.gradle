@@ -1,5 +1,5 @@
 apply plugin: 'application'
-mainClassName = 'ar.uba.fi.distribuidos1.cajero.client.CajeroProducer'
+mainClassName = 'ar.uba.fi.distribuidos1.cliente.CajeroProducer'
 
 dependencies {	
 	extraLibs project(':CajeroCommons')
