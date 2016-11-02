@@ -1,4 +1,4 @@
-package ar.uba.fi.distribuidos1.commons;
+package ar.uba.fi.distribuidos1.cajero;
 
 import java.rmi.RemoteException;
 

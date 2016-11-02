@@ -1,13 +1,8 @@
-package ar.uba.fi.distribuidos1.commons;
+package ar.uba.fi.distribuidos1.cajero;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.rmi.RemoteException;
+import ar.uba.fi.distribuidos1.commons.Movimiento;
+
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,7 +46,7 @@ public class Cuenta {
 		this.agregarMovimiento(new Movimiento(DEPOSITO_STR,cantidad));
 	}
 
-	public void extraer(Integer cantidad) throws RemoteException, IOException {
+	public void extraer(Integer cantidad) throws IOException {
 		Integer saldo = this.leerSaldo();
 		if(saldo > cantidad) {
 			saldo -= cantidad;

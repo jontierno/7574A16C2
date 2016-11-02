@@ -1,4 +1,4 @@
-package ar.uba.fi.distribuidos1.commons;
+package ar.uba.fi.distribuidos1.cajero;
 
 import java.io.IOException;
 
@@ -14,6 +14,5 @@ public class Extraccion extends Operacion {
 	@Override
 	public void operar(Cuenta c) throws IOException{
 		c.extraer(this.cantidad);
-		
 	}
 }

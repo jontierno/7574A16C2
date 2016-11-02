@@ -26,7 +26,9 @@ public interface Constantes {
 	public static final String ANSWER_CODE_SUCCESS = "0";
 	public static final String ANSWER_CODE_CUENTA_EXISTENTE = "1";
 	public static final String ANSWER_CODE_CUENTA_INEXISTENTE = "2";
-	public static final String ANSWER_CODE_SALDO_INSUF= "3";
-	
-	
+	public static final String ANSWER_CODE_SALDO_INSUF = "3";
+	public static final String ANSWER_CODE_IO_ERROR= "4";
+
+
+	public static final String MOVEMENT_DELIMITER = MESSAGE_DELIMITER + MESSAGE_DELIMITER;
 }
