@@ -1,0 +1,17 @@
+apply plugin: 'application'
+mainClassName = 'ar.uba.fi.distribuidos1.cajero.client.CajeroProducer'
+
+dependencies {	
+	extraLibs project(':CajeroCommons')
+	extraLibs 'com.rabbitmq:amqp-client:3.6.5'
+}
+
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName,
+                   'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
+    }
+}
+
+

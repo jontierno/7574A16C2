@@ -1,4 +1,4 @@
-package ar.uba.fi.distribuidos1.cajero.interf.cuenta;
+package ar.uba.fi.distribuidos1.commons;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,10 +10,6 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.apache.commons.collections4.queue.CircularFifoQueue;
-
-import ar.uba.fi.distribuidos1.cajero.interf.Movimiento;
 
 
 public class Cuenta {
@@ -67,7 +63,7 @@ public class Cuenta {
 	}
 
 	public List<Movimiento> obtenerUltimosMovimientos(Integer count) throws NumberFormatException, IOException {
-		CircularFifoQueue<Movimiento> quee = new CircularFifoQueue<Movimiento>(count);
+		List<Movimiento> quee = new LinkedList<Movimiento>();
 		
 		try {
 			BufferedReader bw = new BufferedReader(new FileReader(archMovs));
