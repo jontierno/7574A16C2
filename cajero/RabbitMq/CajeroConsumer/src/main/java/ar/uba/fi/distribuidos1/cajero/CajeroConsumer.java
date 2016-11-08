@@ -27,7 +27,7 @@ public class CajeroConsumer {
             new Cuenta(idCuenta);
             System.out.printf("Se creo correctamente la cuenta %d\n", idCuenta);
             return String.format(Constantes.ANSWER_SIMPLE_TEMP,
-                    Constantes.ANSWER_CODE_IO_ERROR,
+                    Constantes.ANSWER_CODE_SUCCESS,
                     "0");
         } catch (IOException e) {
             System.out.printf("Error I/O\n");
@@ -205,7 +205,8 @@ public class CajeroConsumer {
                 String[] split = body.split(Constantes.MESSAGE_DELIMITER);
                 String routingKey = String.format(Constantes.ANSWER_ROUTING_TEMP, split[0]);
                 String answer = operar(split);
-                channel.basicPublish(Constantes.EXCHANGE_NAME + split[0], routingKey,
+                String retExchange = Constantes.EXCHANGE_NAME+split[0];
+                channel.basicPublish(retExchange, routingKey,
                         MessageProperties.PERSISTENT_TEXT_PLAIN, answer.getBytes());
             } catch (InterruptedException ie) {
                 continue;

@@ -35,13 +35,13 @@ public class CajeroProducer {
 
     private static void checkInexistente(Integer id, String code) {
         if (Constantes.ANSWER_CODE_CUENTA_INEXISTENTE.equals(code)) {
-            System.out.printf("La cuenta %d no existe", id);
+            System.out.printf("La cuenta %d no existe\n", id);
         }
     }
 
     private static void checkIOError(String code) {
         if (Constantes.ANSWER_CODE_IO_ERROR.equals(code)) {
-            System.out.printf("Error de entrada salida en server.");
+            System.out.printf("Error de entrada salida en server.\n");
         }
     }
 
@@ -111,7 +111,7 @@ public class CajeroProducer {
                 String movimientos[] = split[1].split(Constantes.MOVEMENT_DELIMITER);
                 for (int i = 0; i < movimientos.length; i++) {
                     String fields[] = movimientos[i].split(Constantes.MOVEMENTE_INNER_DELIM);
-                    System.out.printf(MOVEMENT_TEMPLATE, fields[0], fields[1]);
+                    System.out.printf   (MOVEMENT_TEMPLATE, fields[0], fields[1]);
                 }
             }
 
@@ -126,16 +126,17 @@ public class CajeroProducer {
         factory.setHost("localhost");
         factory.setPort(5672);
         Connection conn = factory.newConnection();
+
         Channel channel = conn.createChannel();
-
-        // Escucho los mensajes de respuesta hacia mí nada mas.
-        String answerLabel = String.format(Constantes.ANSWER_ROUTING_TEMP, uuid.toString());
-
-        String returnExchangeName = Constantes.EXCHANGE_NAME + uuid.toString();
-        channel.exchangeDeclare(returnExchangeName, "direct", false, true, null);
-        channel.queueBind(Constantes.QUEUE_NAME, returnExchangeName, answerLabel);
+        //cola de entrada
+        String answerLabel = String.format(Constantes.ANSWER_ROUTING_TEMP, uuid);
+        String queeueRetName = String.format(Constantes.ANSWER_QUEUE_NAME, uuid);
+        String myExchange = Constantes.EXCHANGE_NAME + uuid;
+        channel.exchangeDeclare(myExchange, "direct", false, true, null);
+        channel.queueDeclare(queeueRetName, false, true, true, null);
+        channel.queueBind(queeueRetName, myExchange, answerLabel);
         QueueingConsumer consumer = new QueueingConsumer(channel);
-        channel.basicConsume(Constantes.QUEUE_NAME, true, consumer);
+        channel.basicConsume(queeueRetName, true, consumer);
 
         Boolean continuar = true;
         Scanner scanIn = new Scanner(System.in);
@@ -176,9 +177,11 @@ public class CajeroProducer {
                     break;
             }
         }
-        channel.exchangeDelete(returnExchangeName);
+        channel.exchangeDelete(myExchange);
+        channel.queueDelete(queeueRetName);
         scanIn.close();
         channel.close();
+
         conn.close();
     }
 }

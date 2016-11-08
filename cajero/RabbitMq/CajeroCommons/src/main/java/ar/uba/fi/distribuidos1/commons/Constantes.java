@@ -5,6 +5,7 @@ public interface Constantes {
 	public static final String ROUTING_KEY_OP = "operacion";
 	public static final String EXCHANGE_NAME = "myExchange";
 	public static final String QUEUE_NAME = "myQueue";
+	public static final String ANSWER_QUEUE_NAME = "retQueue_%s";
 	public static final String OPERACION_CREAR = "C";
 	public static final String OPERACION_SALDO = "S";
 	public static final String OPERACION_DEPOSITAR = "D";
