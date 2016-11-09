@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Cajero CGI</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <!-- Custom styles for this template -->
+    <link href="css/main.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+	    $( document ).ready(function() {
+	    	var mainurl = "/cgi-bin/";
+	        var cuenta = $("#cuenta");
+	        var btncrear = $("#btn-crear");
+	        var btnsaldo = $("#btn-saldo");
+	        var btnmos = $("#btn-mov");
+	        var cantidad = $("#cantidad");
+	        var btndep = $("#btn-depositar");
+	        var btnext = $("#btn-extraer");
+	        var status = $("#status-panel");
+	        btncrear.on("click", function (e) {
+	        	var value=$.trim(cuenta.val());
+	        	if(value.length > 0) {
+	        		$.ajax({
+    					url: mainurl + "cuenta",
+    					method : "POST",
+    					dataType: "text",
+    					data: value,
+    					success: function(response){
+    						var returnedData = JSON.parse(response);
+    						if(returnedData.status != null){
+    							status.html(returnedData.status);	
+    						} else {
+    							status.html("Cuenta creada");	
+    						}
+    						setTimeout(function(){
+  								status.html("");
+							}, 2000);
+    					}
+					})
+	        	}
+	        	
+	        });
+
+	        btnsaldo.on("click", function (e) {
+	        	var value=$.trim(cuenta.val());
+	        	if(value.length >0) {
+	        		$.getJSON( mainurl + "cuenta?" + value,
+    					 function(response){
+    						if(response.status != null){
+    							status.html(response.status);	
+    						} else {
+    							status.html("El saldo es " + response.saldo);	
+    						}
+    						setTimeout(function(){
+  								status.html("");
+							}, 2000);
+    					}
+					)
+	        	}
+	        });
+
+	        btnmos.on("click", function (e) {
+	        	
+	        	var value=$.trim(cuenta.val());
+	        	if(value.length >0) {
+	        		$.getJSON( mainurl + "movimientos?" + value,
+    					 function(response){
+    						if(response.status != null){
+    							status.html(response.status);	
+    						} else {
+    							var str = "";
+    							for(var i in response.movimientos){
+    								var el = response.movimientos[i];
+    								str += "Tipo: " + el.operacion + "		Cantidad: " + el.cantidad +" <br/>";
+    							}
+    							status.html(str);
+    							
+    						}
+    					}
+					)
+	        	}
+	        });
+
+	        
+
+
+	        btndep.on("click", function (e) {
+	        	var value= $.trim(cuenta.val());
+	        	var cant = $.trim(cantidad.val());
+	        	if(value.length >0 && cant > 0) {
+	        		$.ajax({
+    					url: mainurl + "deposito",
+    					method : "PUT",
+    					dataType: "text",
+    					data: value + ";" +cant,
+    					success: function(response){
+    						var returnedData = JSON.parse(response);
+    						if(returnedData.status != null){
+    							status.html(returnedData.status);	
+    						} else {
+    							status.html("El saldo es " + returnedData.saldo);	
+    						}
+    						setTimeout(function(){
+  								status.html("");
+							}, 2000);
+    					}
+					})
+	        	}
+	        });
+
+	        btnext.on("click", function (e) {
+	        	var value= $.trim(cuenta.val());
+	        	var cant = $.trim(cantidad.val());
+	        	if(value.length >0 && cant > 0) {
+	        		$.ajax({
+    					url: mainurl + "extraccion",
+    					method : "PUT",
+    					dataType: "text",
+    					data: value + ";" +cant,
+    					success: function(response){
+    						var returnedData = JSON.parse(response);
+    						if(returnedData.status != null){
+    							status.html(returnedData.status);	
+    						} else {
+    							status.html("El saldo es " + returnedData.saldo);	
+    						}
+    						setTimeout(function(){
+  								status.html("");
+							}, 2000);
+    					}
+					})
+	        	}
+	        });
+
+
+	    });
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header"> 
+          <p class="navbar-brand" href="#">Cajero CGI</p>
+        </div>
+      </div>
+    </nav>
+	<form class="form-inline">
+	  <div class="form-group">
+	    <label class="sr-only" for="cuenta">Cuenta</label>
+	    <input type="digit" class="form-control bfh-number" id="cuenta" placeholder="Número de cuenta">
+	  </div>
+	  <button type="button" id="btn-crear"class="btn btn-default">Crear</button>
+	  <button type="button" id="btn-saldo"class="btn btn-default">Saldo</button>
+	  <button type="button" id="btn-mov"class="btn btn-default">Movimientos</button>
+
+	</form>
+	<form style="padding-top:20px"class="form-inline">
+	  <div class="form-group">
+	    <label class="sr-only" for="cantidad">Cantidad</label>
+	    <div class="input-group">
+	      <div class="input-group-addon">$</div>
+	      <input type="text" class="form-control" id="cantidad" placeholder="Monto">
+	      <div class="input-group-addon">.00</div>
+	    </div>
+	  </div>
+	  <button id="btn-depositar" type="button" class="btn btn-success">Depositar</button>
+	  <button id="btn-extraer" type="button" class="btn btn-danger">Extraer</button>
+	</form>
+	<div id="status-panel" style="padding-top: 20px">
+		
+	</div>
+
+	</body>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+    <script src="js/bootstrap.min.js"></script>
+  
+</html>

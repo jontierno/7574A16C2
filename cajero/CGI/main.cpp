@@ -93,7 +93,7 @@ string handleMovimientos(int nro) {
             sprintf(buf,"{ \"operacion\": \"%s\", \"cantidad\":%d}",str.c_str(), result.movs[i].cantidad);
             res += string(buf);
         }
-        res  = "{[" +res + "]}";
+        res  = "{\"movimientos\":[" +res + "]}";
         return res;
     }
     return "";
