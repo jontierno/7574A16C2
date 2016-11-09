@@ -1,0 +1,5 @@
+obtener movimientos : GET /movimientos?{id}
+obtener saldo : GET /cuenta?{id}
+crear cuenta : POST /cuenta (con id)
+depositar : PUT /deposito (con id y cantidad)
+extraer : PUT /extraccion (con id y cantidad)
