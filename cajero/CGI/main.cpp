@@ -53,7 +53,7 @@ string handleDepositar(int nro, int cant) {
     return string(buf);
 }
 
-string handleRetirar(int nro, int cant) {
+string handleExtraer(int nro, int cant) {
 
     int  result = retirar(nro, cant);
     char buf[100];
@@ -144,7 +144,6 @@ int  main (int argc, char *argv[])
     int error = 1;
     string result;
     if (op == "cuenta") {
-
         if(method == "GET" && query != NULL) {
             int numero;
             sscanf(query , "%d", &numero);
@@ -187,7 +186,7 @@ int  main (int argc, char *argv[])
             cin >> body;
             vector<int> values = parseOperation(body);
             if(values.size() == 2){
-                result = handleRetirar(values[0], values[1]);
+                result = handleExtraer(values[0], values[1]);
                 error = 0;
             }
         }
