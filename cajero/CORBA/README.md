@@ -1,6 +1,6 @@
 # Cajero CORBA
 
-Esta implementación  comunica la aplicación cliente `cajero_client.py` con el objeto que provee el servicio en el archivo 'cajero_impl.py' utilizando como medio de comunicación CORBA.
+Esta implementación  comunica la aplicación cliente cajero_client.py con el objeto que provee el servicio en el archivo 'cajero_impl.py' utilizando como medio de comunicación CORBA.
 
 ## Inicio del ORB
 

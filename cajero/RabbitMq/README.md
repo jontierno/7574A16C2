@@ -17,7 +17,7 @@ Al envíar cualquier pedido al consumidor, envía su UUID en los datos y queda a
 La construcción de este sistema se hace mediante le uso de gradle, para ello es necesario ejecutar las siguientes sentencias ubicado en el directorio raíz:
 
 ```{r, engine='bash'}
-./gradlew build
+$ ./gradlew build
 ```
 Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución en el directorio *build*.
 
@@ -25,13 +25,13 @@ Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución 
 ## Ejecutando el consumidor (Server)
 
 ```{r, engine='bash'}
-java -jar CajeroConsumer/build/libs/CajeroConsumer.jar &
+$ java -jar CajeroConsumer/build/libs/CajeroConsumer.jar &
 ```
 
 ## Ejecutando un cliente
 
 ```{r, engine='bash'}
-java -jar CajeroProducer/build/libs/CajeroProducer.jar 
+$ java -jar CajeroProducer/build/libs/CajeroProducer.jar 
 ```
 La aplicación desplegará un menú con las operaciones disponibles.
 
@@ -39,6 +39,6 @@ La aplicación desplegará un menú con las operaciones disponibles.
 ## Generar projectos Eclipse (opcional)
 
 ```{r, engine='bash'}
-./gradlew eclipse 
+$ ./gradlew eclipse 
 ```
 Una vez hecho esto es posible importar los proyectos dentro de eclipse.
