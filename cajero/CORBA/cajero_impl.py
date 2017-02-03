@@ -11,7 +11,7 @@ SALDO_FILE = "bd/{}_saldo"
 MOVIM_FILE = "bd/{}_movs"
 OP_TEMPLATE = "{}, {}\n"
 
-# Defino la implementación de la interfaz Cajero
+# Defino la implementacion de la interfaz Cajero
 class Cajero_i (Example__POA.Cajero):
     def crear(self, id):
         saldo_file = SALDO_FILE.format(id)
