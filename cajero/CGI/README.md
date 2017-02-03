@@ -1,4 +1,4 @@
-# Implementacion CGI
+# Cajero CGI
 
 En esta implementacion se provee una aplicación dividida en dos componentes principales, por un lado  una aplicación C++ para ser utilizada en un servidor CGI que expone una API para interactuar con ella y una pequeña aplicacion JavaScript utilizada como cliente de la API.
 

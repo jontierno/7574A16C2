@@ -1,4 +1,4 @@
-# Tradicional
+# Cajero RPC
 
 En esta implementación se utiliza la tecnología RPC para que los clientes tengan acceso remoto al servidor que maneja las operaciones sobre las cuentas.
 
