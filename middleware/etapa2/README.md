@@ -1,15 +1,16 @@
 # Etapa 2
 
+En esta etapa es posible conectar múltiples productores y consumidores en una misma computadora.
 
 ## Build de la solución
 
 La construcción de este sistema se hace mediante le uso de cmake, para ello es necesario ejecutar las siguientes sentencias parado en el directorio raíz:
 
 ```{r, engine='bash'}
-mkdir build
-cd build
-cmake ..
-make
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
 ```
 Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución.
 
@@ -17,7 +18,7 @@ Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución.
 
 Antes de poder ejecutar los traductores y productores es necesario iniciar los recursos compartidos.
 ```{r, engine='bash'}
-./Middleware 
+$ ./Middleware 
 ```
 
 
@@ -27,14 +28,14 @@ Tanto Productores como Traductores pueden ser ejecutados desde linea de comando 
 
 ```{r, engine='bash'}
 //Ejecutar un productor
-./Productor 
+$ ./Productor 
 
 //Ejecutar un traductor
-./Traductor & 
+$ ./Traductor & 
 ```
 
 ## Liberar recursos compartidos
 
 ```{r, engine='bash'}
-./Destructor
+$ ./Destructor
 ```
