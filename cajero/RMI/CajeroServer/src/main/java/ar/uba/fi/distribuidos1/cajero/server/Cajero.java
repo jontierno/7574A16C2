@@ -15,7 +15,7 @@ import ar.uba.fi.distribuidos1.cajero.interf.operacion.Operacion;
 public class Cajero {
 	
 	private static final int CANT_MOVIMIENTOS = 10;
-	public Cajero() {
+	public Cajero() throws RemoteException {
 		File theDir = new File(Cuenta.DB_DIRECTORY);
 
 		// if the directory does not exist, create it
@@ -26,7 +26,7 @@ public class Cajero {
 		        result = true;
 		    } 
 		    catch(SecurityException se){
-		        //handle it
+		        throw new RemoteException("Error I/O", se);
 		    }        
 		    if(result) {    
 		        System.out.println("Directorio de base de datos creado");  

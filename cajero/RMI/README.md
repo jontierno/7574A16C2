@@ -4,7 +4,7 @@ En esta implementación se utiliza la tecnología RMI y lenguaje Java para que l
 
 ## Build de la solución
 
-La construcción de este sistema se hace mediante le uso de gradle, para ello es necesario ejecutar las siguientes sentencias parado en el directorio raíz:
+La construcción de este sistema se hace mediante le uso de gradle, para ello es necesario ejecutar las siguientes sentencias ubicado en el directorio raíz:
 
 ```{r, engine='bash'}
 ./gradlew build
