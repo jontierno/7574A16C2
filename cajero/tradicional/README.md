@@ -1,4 +1,4 @@
-# Tradicional
+# Cajero Tradicional
 
 En esta implementación no hay ningun tipo de separación entre el cliente de la aplicación y el cajero, es una única aplicación monolítica.
 
