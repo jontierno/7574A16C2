@@ -6,7 +6,7 @@ Esta implementación  comunica la aplicación cliente cajero_client.py con el ob
 
 En este caso se utilizo [OmniORB](http://www.omniorb-support.com/), una vez instalado es necesario correr el servicio:
 
-```sh
+```{r, engine='bash'}
 $ sudo service omniorb4-nameserver start
 ```
 
@@ -15,12 +15,12 @@ $ sudo service omniorb4-nameserver start
 
 Primero es necesario correr el servicio que implementa las operaciones:
 
-```sh
+```{r, engine='bash'}
 $ python cajero_impl.py
 ```
 
 Y en paralelo se debe correr el cliente, el cual desplegará un menú con las operaciones disponibles
 
-```sh
+```{r, engine='bash'}
 $ python cajero_client.py
 ```
