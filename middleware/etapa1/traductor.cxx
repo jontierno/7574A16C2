@@ -25,12 +25,12 @@ int main(int argc, char *argv[]) {
 	string word;
 	string result;
 	while (1) {
-		word = getWork();
+		word = getTask();
 		safelog("Trabajo recibido: %s\n", word.c_str());
 		sleep(rand()%10);
 		result = translate(word);
 		safelog("Trabajo traducido a: %s\n", result.c_str());
-        sendWork(result);
+        sendTask(result);
 	}
 
 }

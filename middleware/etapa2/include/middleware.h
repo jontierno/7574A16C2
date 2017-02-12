@@ -40,7 +40,7 @@ string toGeringoso(string word) {
 }
 
 
-string getWork() {
+string getTask() {
 	if (current_work_id != 0) {
 		cout << "Pinchar, ver que hacer"<< endl;
 		exit(1);
@@ -59,7 +59,7 @@ string getWork() {
 }
 
 
-void sendWork(string work) {
+void sendTask(string work) {
 	if (fd_work == 0) {
 		cout << "Pincha, ver que hacer"<<endl;
 		exit(1);

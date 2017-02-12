@@ -24,7 +24,7 @@ int main(int argc, char ** argsv){
 
         // ahora pido el trabajo.
         recibirmsg(fd_work, &buf,MAX_BUFFER,0);
-        safelog("Trabajo recibido, enviando hacia el cliente\n");
+        safelog("Trabajo recibido, enviando hacia el cliente middleware\n");
         string work(buf.mtext);
 
         if(writeSocket(fdConnection, work)){
@@ -37,7 +37,7 @@ int main(int argc, char ** argsv){
         //Esperando respuesta y reenvio al solicitante.
         safelog("Esperando traduccion\n");
         string trans = readSocket(fdConnection);
-        safelog("Traduccion recibida, enviando hacia el productor\n");
+        safelog("Traduccion recibida, enviando hacia el cliente\n");
         strcpy(buf.mtext, trans.c_str());;
         enviarmsg(fd_work_ret,&buf,sizeof(long) + sizeof(char) * trans.length());
 

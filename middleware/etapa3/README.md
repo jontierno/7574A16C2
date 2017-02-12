@@ -1,6 +1,6 @@
 # Etapa 3
 
-En esta etapa el middleware permite conectar multiples productores en una computadora con multiples clientes distribuidos en diferentes computadoras.
+En esta etapa el middleware permite conectar multiples clientes en una computadora con multiples clientes distribuidos en diferentes computadoras.
 
 ## Build de la solución
 
@@ -16,19 +16,19 @@ Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución.
 
 ## Inicializar los recursos compartidos 
 
-Antes de poder ejecutar los traductores y productores es necesario iniciar los recursos compartidos en la computadora donde se lanzarán los productores.
+Antes de poder ejecutar los traductores y clientes es necesario iniciar los recursos compartidos en la computadora donde se lanzarán los clientes.
 ```{r, engine='bash'}
 $ ./Middleware 
 ```
 
 
-## Ejecutando Productores y Traductores
-Tanto Productores como Traductores pueden ser ejecutados desde linea de comando de la siguiente manera
+## Ejecutando Clientes y Traductores
+Tanto Clientes como Traductores pueden ser ejecutados desde linea de comando de la siguiente manera
 
 
 ```{r, engine='bash'}
-//Ejecutar un productor
-$ ./Productor 
+//Ejecutar un cliente
+$ ./Cliente 
 
 //Ejecutar un traductor
 $ ./Traductor & 

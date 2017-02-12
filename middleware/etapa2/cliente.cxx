@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     init_logger("Productor", getpid());
     srand(getpid());
     log_exit();
-	safelog("Iniciando productor...\n");
+	safelog("Iniciando cliente...\n");
 	string palabra;
 	string traduccion;
 	while(1) {

@@ -1,6 +1,6 @@
 # Etapa 2
 
-En esta etapa es posible conectar múltiples productores y consumidores en una misma computadora.
+En esta etapa es posible conectar múltiples clientes y consumidores en una misma computadora.
 
 ## Build de la solución
 
@@ -16,7 +16,7 @@ Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución.
 
 ## Inicializar los recursos compartidos 
 
-Antes de poder ejecutar los traductores y productores es necesario iniciar los recursos compartidos.
+Antes de poder ejecutar los traductores y clientes es necesario iniciar los recursos compartidos.
 ```{r, engine='bash'}
 $ ./Middleware 
 ```
@@ -27,8 +27,8 @@ Tanto Productores como Traductores pueden ser ejecutados desde linea de comando 
 
 
 ```{r, engine='bash'}
-//Ejecutar un productor
-$ ./Productor 
+//Ejecutar un cliente
+$ ./Cliente
 
 //Ejecutar un traductor
 $ ./Traductor & 

@@ -16,19 +16,19 @@ Una vez hecho esto ya se encuentran disponibles los ejecutables de la solución.
 
 ## Inicializar los recursos compartidos 
 
-Antes de poder ejecutar los traductores y productores es necesario iniciar los recursos compartidos.
+Antes de poder ejecutar los traductores y clientes es necesario iniciar los recursos compartidos.
 ```{r, engine='bash'}
 $ ./Middleware 
 ```
 
 
-## Ejecutando Productores y Traductores
-Tanto Productores como Traductores pueden ser ejecutados desde linea de comando de la siguiente manera
+## Ejecutando Clientes y Traductores
+Tanto Clientes como Traductores pueden ser ejecutados desde linea de comando de la siguiente manera
 
 
 ```{r, engine='bash'}
-//Ejecutar un productor
-$ ./Productor 
+//Ejecutar un cliente
+$ ./Cliente 
 
 //Ejecutar un traductor
 $ ./Traductor & 
