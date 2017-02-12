@@ -7,14 +7,17 @@ using namespace std;
 
 #define MAX_BUFFER 524288
 
+//QUEUES FILE DESCRIPTORS
 int fd_req = 0;
 int fd_ret = 0;
-
 int fd_work = 0;
 int fd_work_ret = 0;
+
 int current_work_id = 0;
 
 
+
+//Auxiliar struct
 struct mess_buff_t
 {
   long mtype;

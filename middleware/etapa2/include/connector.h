@@ -35,6 +35,10 @@ void manejarConectError(int error) {
 }
 
 
+/* Conecta a un socket y retorna su file descriptor
+   ip: dirección ip destino
+   port: puerto destino
+*/
 int connectSocket (char * ip, int port) {
 	struct sockaddr_in dest_addr;
 	safelog("Intentando conectar con servidor %s\n", ip);
@@ -54,6 +58,9 @@ int connectSocket (char * ip, int port) {
 }
 
 
+/* Abre la espera para conexciones
+   port: puerto destino
+*/
 int listenSocket(int port) {
 	int fd1;
 	struct sockaddr_in serv_addr;
@@ -84,6 +91,10 @@ int listenSocket(int port) {
 	return fd1;
 }
 
+/* Lee una cadena de caracteres,
+   sock: file descriptor del socket
+   msj: puntero donde se copia el mensaje
+*/
 void readSocket(int sock, char * msj) {
 
 	char buffer[MAX_BUFFER_SOCK];
@@ -105,6 +116,11 @@ void readSocket(int sock, char * msj) {
 
 }
 
+
+/* Envía una cadena de caracteres,
+   sock: file descriptor del socket
+   msj: puntero dal mensaje
+*/
 void writeSocket(int socket , char * msj) {
 
 	int enviados = 0;
