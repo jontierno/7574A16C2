@@ -6,12 +6,11 @@
 using namespace std;
 
 #define MAX_BUFFER 524288
-#define MTYPE 1
-int fd_req = 0;
-int fd_ret = 0;
+#define MTYPE_REQUEST 1
+#define MTYPE_RESPONSE 2
 
+int fd_req = 0;
 int fd_work = 0;
-int fd_work_ret = 0;
 
 struct mess_buff_t
 {
@@ -25,15 +24,14 @@ string toGeringoso(string word) {
 
 	if(fd_req == 0) {
 		fd_req = getmsg(QUEUEREQ_ID);
-		fd_ret = getmsg(QUEUERET_ID);
 	}
 	mess_buff_t buf;
-    buf.mtype = MTYPE;
+    buf.mtype = MTYPE_REQUEST;
 	memset(buf.mtext, 0, MAX_BUFFER);
     strcpy(buf.mtext,word.c_str());;
     enviarmsg(fd_req,&buf,sizeof(long) + sizeof(char) * word.length());
 	memset(buf.mtext, 0, MAX_BUFFER);
-    recibirmsg(fd_ret, &buf,MAX_BUFFER,buf.mtype);
+    recibirmsg(fd_req, &buf,MAX_BUFFER,MTYPE_RESPONSE);
     string trans (buf.mtext);
     return trans;
 }
@@ -43,11 +41,10 @@ string toGeringoso(string word) {
 string getTask() {
 	if(fd_work == 0) {
 		fd_work = getmsg(QUEUEREQ_ID);
-		fd_work_ret = getmsg(QUEUERET_ID);
 	}
 	mess_buff_t buf;
 	memset(buf.mtext, 0, MAX_BUFFER);
-	recibirmsg(fd_work, &buf,MAX_BUFFER,0);
+	recibirmsg(fd_work, &buf,MAX_BUFFER,MTYPE_REQUEST);
 	string work(buf.mtext);
 	return work;
 
@@ -60,10 +57,10 @@ void sendTask(string work) {
 		exit(1);
 	}
 	mess_buff_t buf;
-	buf.mtype = MTYPE;
+	buf.mtype = MTYPE_RESPONSE;
 	memset(buf.mtext, 0, MAX_BUFFER);
 	strcpy(buf.mtext, work.c_str());;
-	enviarmsg(fd_work_ret,&buf,sizeof(long) + sizeof(char) * work.length());
+	enviarmsg(fd_work,&buf,sizeof(long) + sizeof(char) * work.length());
 }
 
 
@@ -71,8 +68,7 @@ void sendTask(string work) {
 void finishWork(){
 	
 	if(fd_work != 0) close (fd_work);
-	if(fd_work_ret != 0) close (fd_work_ret);
 	if(fd_req != 0) close (fd_req);
-	if(fd_ret != 0) close (fd_ret);
+
 
 }

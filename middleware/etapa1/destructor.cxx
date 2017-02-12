@@ -7,6 +7,5 @@ int main(){
     log_exit();
     safelog("Liberando recursos compartidos\n");
     elimsg(getmsg(QUEUEREQ_ID));
-    elimsg(getmsg(QUEUERET_ID));
     safelog("Recursos compartidos liberados correctamente\n");
 }

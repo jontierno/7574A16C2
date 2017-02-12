@@ -6,6 +6,6 @@ int main(){
     log_exit();
     safelog("Iniciando recursos compartidos\n");
     creamsg(QUEUEREQ_ID);
-    creamsg(QUEUERET_ID);
+
     safelog("Recursos iniciados correctamente\n");
 }
