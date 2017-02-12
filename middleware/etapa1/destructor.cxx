@@ -3,7 +3,7 @@
 
 
 int main(){
-    init_logger("Liberador", getpid());
+    init_logger("Destructor", getpid());
     log_exit();
     safelog("Liberando recursos compartidos\n");
     elimsg(getmsg(QUEUEREQ_ID));

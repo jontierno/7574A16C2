@@ -4,7 +4,7 @@ En esta etapa es posible conectar múltiples clientes y consumidores en una mism
 
 ## Build de la solución
 
-La construcción de este sistema se hace mediante le uso de cmake, para ello es necesario ejecutar las siguientes sentencias parado en el directorio raíz:
+La construcción de este sistema se hace mediante le uso de cmake, para ello es necesario ejecutar las siguientes sentencias ubicado en el directorio raíz:
 
 ```{r, engine='bash'}
 $ mkdir build
