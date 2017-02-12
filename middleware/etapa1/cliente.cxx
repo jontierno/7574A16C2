@@ -10,19 +10,19 @@ int main(int argc, char *argv[]) {
     log_exit();
 	safelog("Iniciando cliente...\n");
 
-	string palabra;
-	string traduccion;
+	string word;
+	string translation;
 	
 	while(1) {
 			//Word input
 			safelog("Ingrese una palabra: ");
-			getline(cin, palabra);
+			getline(cin, word);
 
 			//Translate
-   			traduccion = toGeringoso(palabra);
+   			translation = toGeringoso(word);
 
    			//Answer translation
-			safelog("Su palabra en jeringoso es: %s\n", traduccion.c_str());
+			safelog("Su palabra en jeringoso es: %s\n", translation.c_str());
 	}
 
 }

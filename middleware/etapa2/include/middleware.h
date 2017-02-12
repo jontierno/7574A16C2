@@ -22,6 +22,7 @@ struct mess_buff_t
 };
 
 
+//Generates a new translation task
 string toGeringoso(string word) {
 
 	if(fd_req == 0) {
@@ -40,6 +41,7 @@ string toGeringoso(string word) {
 }
 
 
+//Ask for a new translation task
 string getTask() {
 	if (current_work_id != 0) {
 		cout << "Pinchar, ver que hacer"<< endl;
@@ -58,7 +60,7 @@ string getTask() {
 
 }
 
-
+//Answer last translation task
 void sendTask(string work) {
 	if (fd_work == 0) {
 		cout << "Pincha, ver que hacer"<<endl;
@@ -73,7 +75,7 @@ void sendTask(string work) {
 	enviarmsg(fd_work_ret,&buf,sizeof(long) + sizeof(char) * work.length());
 }
 
-
+//Release translator resources
 void finishWork(){
 	
 	if(fd_work != 0) close (fd_work);

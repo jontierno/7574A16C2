@@ -5,17 +5,24 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    //Logger init
     init_logger("Productor", getpid());
-    srand(getpid());
     log_exit();
 	safelog("Iniciando cliente...\n");
-	string palabra;
-	string traduccion;
+
+	string word;
+	string translation;
+	
 	while(1) {
+			//Word input
 			safelog("Ingrese una palabra: ");
-			getline(cin, palabra);
-   			traduccion = toGeringoso(palabra);
-		safelog("Su palabra en jeringoso es: %s\n", traduccion.c_str());
+			getline(cin, word);
+
+			//Translate
+   			translation = toGeringoso(word);
+
+   			//Answer translation
+			safelog("Su palabra en jeringoso es: %s\n", translation.c_str());
 	}
 
 }
