@@ -6,12 +6,16 @@
 using namespace std;
 
 #define MAX_BUFFER 524288
+
+//Messages types
 #define MTYPE_REQUEST 1
 #define MTYPE_RESPONSE 2
 
 int fd_req = 0;
 int fd_work = 0;
 
+
+//Auxiliar struct
 struct mess_buff_t
 {
   long mtype;
@@ -26,8 +30,9 @@ string toGeringoso(string word) {
 		fd_req = getmsg(QUEUEREQ_ID);
 	}
 	mess_buff_t buf;
+    memset(buf.mtext, 0, MAX_BUFFER);
+
     buf.mtype = MTYPE_REQUEST;
-	memset(buf.mtext, 0, MAX_BUFFER);
     strcpy(buf.mtext,word.c_str());;
     enviarmsg(fd_req,&buf,sizeof(long) + sizeof(char) * word.length());
 	memset(buf.mtext, 0, MAX_BUFFER);
