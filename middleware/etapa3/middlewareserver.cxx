@@ -44,11 +44,7 @@ void runWorker(int number, int connectionFd, int fdClient, int fd_work, int fd_w
     if (pid == 0) {
         //el hijo cierra el fd que hizo el accept.
         close(connectionFd);
-        //ejecuto el worker
-        /*if (execv(WORKER_BIN, &(av[0])) != 0) {
-            safelog("%s\n", strerror(errno));
-            exit(1);
-        }*/
+        
         execlp(WORKER_BIN, ITOS(number).c_str(), ITOS(fdClient).c_str(), ITOS(fd_work).c_str(), ITOS(fd_work_ret).c_str(), 0);
         safelog("%s\n", strerror(errno));
         exit(1);

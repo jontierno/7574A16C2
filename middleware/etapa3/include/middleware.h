@@ -133,7 +133,7 @@ string getTask() {
 //Answer last translation task
 void sendTask(string work) {
 	if (fd_work == 0) {
-		cout << "Pincha, ver que hacer"<<endl;
+		safelog("Middleware no iniciado correctamente");
 		exit(1);
 	}
 	mess_buff_t buf;

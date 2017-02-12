@@ -47,7 +47,7 @@ string toGeringoso(string word) {
 //Ask for a new translation task
 string getTask() {
 	if (current_work_id != 0) {
-		cout << "Pinchar, ver que hacer"<< endl;
+		safelog("Sólo se puede solicitar un trabajo a la vez.");
 		exit(1);
 	}
 	if(fd_work == 0) {
@@ -66,7 +66,7 @@ string getTask() {
 //Answer last translation task
 void sendTask(string work) {
 	if (fd_work == 0) {
-		cout << "Pincha, ver que hacer"<<endl;
+		safelog("Middleware no iniciado correctamente.");
 		exit(1);
 	}
 	mess_buff_t buf;

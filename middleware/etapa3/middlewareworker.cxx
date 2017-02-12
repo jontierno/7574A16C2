@@ -10,7 +10,6 @@ int main(int argc, char ** argsv){
     int fd_work = atoi(argsv[2]);
     int fd_work_ret = atoi(argsv[3]);
 
-    //cout << argsv[0] << " " << argsv[1] << " " <<argsv[2] << " " <<argsv[3] << argsv[4] << endl;
     safelog("Enviando informacion inicial al cliente\n");
     writeSocket(fdConnection,argsv[1]);
     while(1){
