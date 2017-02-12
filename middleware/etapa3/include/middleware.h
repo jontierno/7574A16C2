@@ -61,7 +61,7 @@ void runClientWorker(int number, int connectionFd,int queueINFd, int queueOUTFd)
 	av.push_back(0);
 	int pid = fork();
 	if (pid == 0) {
-		//ejecuto el worker
+		//run worker
 		execlp(CLIENT_WORKER_BIN, ITOS(number).c_str(), ITOS(connectionFd).c_str(), ITOS(queueINFd).c_str(), ITOS(queueOUTFd).c_str(), 0);
 
 	}
@@ -85,37 +85,41 @@ string readIPserver(){
 
 }
 
-string getWork() {
+string getTask() {
 
 	if(connected == 0) {
 		string serverIP = readIPserver();
-		// conecto  al servidor y pido el numero de traductor.
+		// connects to server and ask translator number
 		int fdClient = connectSocket(serverIP.c_str(), SERVER_PORT);
-		//Leo el número de cliente
+
+		// reads client number
 		string number = readSocket(fdClient);
 
 		int controlNumber = atoi(number.c_str());
 
 		int queueINID =controlNumber + CLIENT_QUEUE_OFFSET;
 		int queueOUTID =queueINID + CLIENT_QUEUE_SEPARATOR;
-		// tengo que crear las cola de mensajes.
+		// creates messagge queues
 		fd_work = creamsg(queueINID);
 		fd_work_ret = creamsg(queueOUTID);
 		connected = 1;
-		// lanzo el worker del cliente y le paso todos los fd
+
+		// runs client's worker and gives it fds
 		safelog("Se lanza un Client MiddleWare\n");
 		runClientWorker(controlNumber, fdClient, fd_work, fd_work_ret);
-		//cierro el socket en este proceso.
+
+		//closes socket
 		close(fdClient);
 	}
 
 	mess_buff_t buf;
-	//envio un mensaje vacío para indicar que estoy esperando un trabajo
+
+	//sends an empty message as a task request
 	memset(buf.mtext, 0, MAX_BUFFER);
     strcpy(buf.mtext, "1");
 	enviarmsg(fd_work_ret,&buf, sizeof(long) + sizeof(char));
 
-	// ahora pido el trabajo.
+	//there is a new task, asks for it
     memset(buf.mtext, 0, MAX_BUFFER);
     buf.mtype = 0;
 	recibirmsg(fd_work, &buf,MAX_BUFFER,0);
@@ -125,7 +129,7 @@ string getWork() {
 }
 
 
-void sendWork(string work) {
+void sendTask(string work) {
 	if (fd_work == 0) {
 		cout << "Pincha, ver que hacer"<<endl;
 		exit(1);

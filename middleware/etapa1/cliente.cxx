@@ -1,22 +1,28 @@
 #include <string>
 #include <iostream>
 #include "include/logger.h"
-#include "include/middle.h"
+#include "include/middleware.h"
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    //Logger init
     init_logger("Productor", getpid());
-    srand(getpid());
     log_exit();
 	safelog("Iniciando productor...\n");
+
 	string palabra;
 	string traduccion;
+	
 	while(1) {
+			//Word input
 			safelog("Ingrese una palabra: ");
+			getline(cin, palabra);
 
-   			cin >> palabra; 
+			//Translate
    			traduccion = toGeringoso(palabra);
-		safelog("Su palabra en jeringoso es: %s\n", traduccion.c_str());
+
+   			//Answer translation
+			safelog("Su palabra en jeringoso es: %s\n", traduccion.c_str());
 	}
 
 }

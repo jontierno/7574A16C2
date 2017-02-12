@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include "include/logger.h"
-#include "include/middle.h"
+#include "include/middleware.h"
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -13,8 +13,7 @@ int main(int argc, char *argv[]) {
 	string traduccion;
 	while(1) {
 			safelog("Ingrese una palabra: ");
-
-   			cin >> palabra; 
+			getline(cin, palabra);
    			traduccion = toGeringoso(palabra);
 		safelog("Su palabra en jeringoso es: %s\n", traduccion.c_str());
 	}
