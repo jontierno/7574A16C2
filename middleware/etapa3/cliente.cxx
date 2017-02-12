@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     //Logger init
-    init_logger("Productor", getpid());
+    init_logger("Cliente", getpid());
     log_exit();
 	safelog("Iniciando cliente...\n");
 
