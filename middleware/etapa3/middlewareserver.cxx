@@ -30,21 +30,10 @@ void sigchld_handler(int sign) {
 
 void runWorker(int number, int connectionFd, int fdClient, int fd_work, int fd_work_ret) {
 
-    static vector<char *> av;
-    av.clear();
-
-    av.push_back(const_cast<char *> (WORKER_BIN));
-    av.push_back(const_cast<char *> (ITOS(number).c_str()));
-    av.push_back(const_cast<char *> (ITOS(fdClient).c_str()));
-    av.push_back(const_cast<char *> (ITOS(fd_work).c_str()));
-    av.push_back(const_cast<char *> (ITOS(fd_work_ret).c_str()));
-    std::cout << &(av[0]) << std::endl;
-    av.push_back(0);
     int pid = fork();
     if (pid == 0) {
         //el hijo cierra el fd que hizo el accept.
         close(connectionFd);
-        
         execlp(WORKER_BIN, ITOS(number).c_str(), ITOS(fdClient).c_str(), ITOS(fd_work).c_str(), ITOS(fd_work_ret).c_str(), 0);
         safelog("%s\n", strerror(errno));
         exit(1);

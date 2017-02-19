@@ -50,16 +50,6 @@ string toGeringoso(string word) {
 
 
 void runClientWorker(int number, int connectionFd,int queueINFd, int queueOUTFd) {
-
-
-
-
-	vector<char *> av;
-	av.push_back(const_cast<char *> (ITOS(number).c_str()));
-	av.push_back(const_cast<char *> (ITOS(connectionFd).c_str()));
-	av.push_back(const_cast<char *> (ITOS(queueINFd).c_str()));
-	av.push_back(const_cast<char *> (ITOS(queueOUTFd).c_str()));
-	av.push_back(0);
 	int pid = fork();
 	if (pid == 0) {
 		//run worker
