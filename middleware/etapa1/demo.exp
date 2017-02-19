@@ -1,0 +1,109 @@
+#!/usr/bin/expect -f
+
+
+set nice_timeout 1
+
+## Starting middleware
+puts "Ejecutando el Middleware\n"
+spawn ./build/Middleware
+expect {
+	 timeout {puts "Fin por time out"; exit}
+	 "Recursos iniciados correctamente" {puts "Middleware Iniciado\n"}
+}
+
+after $nice_timeout
+
+
+puts "Iniciando Traductor"
+after $nice_timeout
+spawn ./build/Traductor
+expect {
+	  timeout {puts "Fin por time out"; exit}
+	 "Iniciando Traductor" {puts "Traductor 1 iniciado correctamente\n"}
+}
+
+after $nice_timeout
+puts "Iniciando Traductor"
+after $nice_timeout
+spawn ./build/Traductor
+expect {
+	  timeout {puts "Fin por time out"; exit}
+	 "Iniciando Traductor" {puts "Traductor 2 iniciado correctamente\n"}
+}
+
+after $nice_timeout
+puts "Iniciando Traductor"
+after $nice_timeout
+spawn ./build/Traductor
+expect {
+	  timeout {puts "Fin por time out"; exit}
+	 "Iniciando Traductor" {puts "Traductor 3 iniciado correctamente\n"}
+}
+
+
+after $nice_timeout
+puts "Iniciando Cliente"
+after $nice_timeout
+spawn ./build/Cliente
+set clients(0) $spawn_id
+
+expect {
+	  timeout {puts "Fin por time out"; exit}
+	 "Ingrese una palabra:" {puts "\nCliente 1 iniciado correctamente\n"}
+}
+
+after $nice_timeout
+puts "Iniciando Cliente"
+after $nice_timeout
+spawn ./build/Cliente
+set clients(1) $spawn_id
+expect {
+	  timeout {puts "Fin por time out"; exit}
+	 "Ingrese una palabra:" {puts "\nCliente 2 iniciado correctamente\n"}
+}
+after $nice_timeout
+
+set f [open "demo-palabras.txt"]
+set words [split [read $f] " "]
+close $f
+
+
+set index 0
+set accum {} 
+set orig {}
+foreach word $words {
+	set cln [expr $index + 1]
+	puts "Escribiendo \"$word\" en el cliente $cln \n"
+	send -i $clients($index) "$word\n"
+	expect {
+		-i $clients($index)
+		timeout {exit}
+		-re {Su palabra en jeringoso es: (.+)\r\n} {
+			puts "\n\rLa traducción obtenida es \"$expect_out(1,string)\""
+			set accum "${accum} $expect_out(1,string)" 
+			set orig "${orig} $word" 
+		}
+
+	}
+	puts \n\r
+	set index [expr [expr $index + 1] % 2]	
+}
+
+
+set orig [string trim $orig]
+set acum [string trim $accum]
+puts "La frase original es \"$orig\""
+puts "La traducción completa es \"$acum\""
+
+after $nice_timeout
+## Starting middleware
+puts "\nLimpiando recursos del Middleware\n"
+spawn ./build/Destructor
+expect {
+	 timeout {puts "Fin por time out"; exit}
+	 "Recursos compartidos liberados correctamente" {puts "Middleware Finalizado\n"}
+}
+
+after $nice_timeout
+puts "Fin de la presentación"
+
