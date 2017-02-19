@@ -4,7 +4,9 @@
 set nice_timeout 1500
 
 ####################### STARTING MIDDLEWARE
-puts "Ejecutando el Middleware\n"
+
+
+puts "################## EJECUTANDO MIDDLEWARE ######################\n"
 spawn ./build/Middleware
 expect {
 	 timeout {puts "Fin por time out"; exit}
@@ -16,7 +18,7 @@ after $nice_timeout
 
 ######################## TRANSLATORS
 
-
+puts "################## INICIANDO TRADUCTORES ######################\n"
 
 ############ TRANSLATOR 1
 puts "Iniciando Traductor"
@@ -66,6 +68,8 @@ after $nice_timeout
 ########################## CLIENTS
 
 
+puts "################## INICIANDO CLIENTES ######################\n"
+
 ############ CLIENT 1
 puts "Iniciando Cliente"
 after $nice_timeout
@@ -107,13 +111,14 @@ close $f
 
 ################################## TRANSLATE
 
-puts "COMENZANDO TRADUCCIÓN"
+puts "################## COMENZANDO TRADUCCIÓN ######################\n"
 set index 0
 set accum {} 
 set orig {}
 foreach word $words {
+	set index [expr {int(rand()*20) % 2}]
 	set cln [expr $index + 1]
-	puts "Traduciend \"$word\" en el cliente $cln \n"
+	puts "Traduciendo \"$word\" en el cliente $cln"
 	send -i $clients($index) "$word\n"
 	after $nice_timeout
 	
@@ -129,28 +134,29 @@ foreach word $words {
 	}
 
 	after $nice_timeout
-	puts "Determinando traductor \n"
+	puts "Determinando traductor"
+	after $nice_timeout
 	expect {
 		-i $transl(0)
 		"Trabajo traducido a" {
 			after $nice_timeout
-			puts "Trabajo traducido por el Traductor 1 \n"
+			puts "Palabra traducida por el Traductor 1 \n"
 		}
 		-i $transl(1)
 		"Trabajo traducido a" {
 			after $nice_timeout
-			puts "Trabajo traducido por el Traductor 2 \n"
+			puts "Palabra traducida por el Traductor 2 \n"
 		}
 		-i $transl(2)
 		"Trabajo traducido a" {
 			after $nice_timeout
-			puts "Trabajo traducido por el Traductor 3 \n"
+			puts "Palabra traducida por el Traductor 3 \n"
 		}
 
 	}
 	after $nice_timeout
 	after $nice_timeout
-	set index [expr [expr $index + 1] % 2]	
+	#set index [expr [expr $index + 1] % 2]	
 }
 
 ################## PRINT ORIGINAL WORDS AND TRANSLATION
@@ -163,7 +169,8 @@ after $nice_timeout
 
 
 ######################## FINISHING MIDDLEWARE
-puts "\nLimpiando recursos del Middleware\n"
+
+puts "\n################## FINALIZANDO EL MIDDLEWARE ######################\n"
 spawn ./build/Destructor
 expect {
 	 timeout {puts "Fin por time out"; exit}
