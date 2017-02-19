@@ -1,9 +1,9 @@
 #!/usr/bin/expect -f
 
 
-set nice_timeout 1
+set nice_timeout 1500
 
-## Starting middleware
+####################### STARTING MIDDLEWARE
 puts "Ejecutando el Middleware\n"
 spawn ./build/Middleware
 expect {
@@ -14,89 +14,155 @@ expect {
 after $nice_timeout
 
 
+######################## TRANSLATORS
+
+
+
+############ TRANSLATOR 1
 puts "Iniciando Traductor"
 after $nice_timeout
 spawn ./build/Traductor
 expect {
 	  timeout {puts "Fin por time out"; exit}
-	 "Iniciando Traductor" {puts "Traductor 1 iniciado correctamente\n"}
+	 "Iniciando Traductor" {
+	 	puts "Traductor 1 iniciado correctamente\n"
+	 	after $nice_timeout
+	 }
 }
-
+set transl(0) $spawn_id
 after $nice_timeout
+
+
+############ TRANSLATOR 2
 puts "Iniciando Traductor"
 after $nice_timeout
 spawn ./build/Traductor
 expect {
 	  timeout {puts "Fin por time out"; exit}
-	 "Iniciando Traductor" {puts "Traductor 2 iniciado correctamente\n"}
+	 "Iniciando Traductor" {
+	 	after $nice_timeout
+	 	puts "Traductor 2 iniciado correctamente\n"
+	 }
 }
-
+set transl(1) $spawn_id
 after $nice_timeout
+
+
+############ TRANSLATOR 3
 puts "Iniciando Traductor"
 after $nice_timeout
 spawn ./build/Traductor
 expect {
 	  timeout {puts "Fin por time out"; exit}
-	 "Iniciando Traductor" {puts "Traductor 3 iniciado correctamente\n"}
+	 "Iniciando Traductor" {
+	 	after $nice_timeout
+	 	puts "Traductor 3 iniciado correctamente\n"
+	 }
 }
-
-
+set transl(2) $spawn_id
 after $nice_timeout
+
+
+########################## CLIENTS
+
+
+############ CLIENT 1
 puts "Iniciando Cliente"
 after $nice_timeout
 spawn ./build/Cliente
 set clients(0) $spawn_id
-
 expect {
 	  timeout {puts "Fin por time out"; exit}
-	 "Ingrese una palabra:" {puts "\nCliente 1 iniciado correctamente\n"}
+	 "Ingrese una palabra:" {
+	 	after $nice_timeout
+	 	puts "\nCliente 1 iniciado correctamente\n"
+	 }
 }
-
 after $nice_timeout
+
+
+############ CLIENT 2
 puts "Iniciando Cliente"
 after $nice_timeout
 spawn ./build/Cliente
 set clients(1) $spawn_id
 expect {
 	  timeout {puts "Fin por time out"; exit}
-	 "Ingrese una palabra:" {puts "\nCliente 2 iniciado correctamente\n"}
+	 "Ingrese una palabra:" {
+	 	after $nice_timeout
+	 	puts "\nCliente 2 iniciado correctamente\n"
+	 }
 }
 after $nice_timeout
 
+
+
+################################## LOAD WORDS
 set f [open "demo-palabras.txt"]
 set words [split [read $f] " "]
 close $f
 
 
+
+
+################################## TRANSLATE
+
+puts "COMENZANDO TRADUCCIÓN"
 set index 0
 set accum {} 
 set orig {}
 foreach word $words {
 	set cln [expr $index + 1]
-	puts "Escribiendo \"$word\" en el cliente $cln \n"
+	puts "Traduciend \"$word\" en el cliente $cln \n"
 	send -i $clients($index) "$word\n"
+	after $nice_timeout
+	
 	expect {
 		-i $clients($index)
 		timeout {exit}
 		-re {Su palabra en jeringoso es: (.+)\r\n} {
-			puts "\n\rLa traducción obtenida es \"$expect_out(1,string)\""
+			after $nice_timeout
+			puts "\n\rLa traducción obtenida es \"$expect_out(1,string)\" \n"
 			set accum "${accum} $expect_out(1,string)" 
 			set orig "${orig} $word" 
 		}
+	}
+
+	after $nice_timeout
+	puts "Determinando traductor \n"
+	expect {
+		-i $transl(0)
+		"Trabajo traducido a" {
+			after $nice_timeout
+			puts "Trabajo traducido por el Traductor 1 \n"
+		}
+		-i $transl(1)
+		"Trabajo traducido a" {
+			after $nice_timeout
+			puts "Trabajo traducido por el Traductor 2 \n"
+		}
+		-i $transl(2)
+		"Trabajo traducido a" {
+			after $nice_timeout
+			puts "Trabajo traducido por el Traductor 3 \n"
+		}
 
 	}
-	puts \n\r
+	after $nice_timeout
+	after $nice_timeout
 	set index [expr [expr $index + 1] % 2]	
 }
 
-
+################## PRINT ORIGINAL WORDS AND TRANSLATION
 set orig [string trim $orig]
 set acum [string trim $accum]
 puts "La frase original es \"$orig\""
 puts "La traducción completa es \"$acum\""
-
 after $nice_timeout
-## Starting middleware
+
+
+
+######################## FINISHING MIDDLEWARE
 puts "\nLimpiando recursos del Middleware\n"
 spawn ./build/Destructor
 expect {
