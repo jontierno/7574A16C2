@@ -29,7 +29,7 @@ int main(int argc, char ** argsv){
     signal(SIGINT,signalHandler);
 
     safelog("Enviando informacion inicial al cliente\n");
-    writeSocket(fdConnection,argsv[1]);
+    writeSocket(fdConnection,argsv[0]);
     while(1){
         safelog("Esperando solicitud del cliente\n");
         readSocket(fdConnection);
