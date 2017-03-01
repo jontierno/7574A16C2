@@ -107,13 +107,15 @@ string getTask() {
 	mess_buff_t buf;
 
 	//sends an empty message as a task request
+	
 	memset(buf.mtext, 0, MAX_BUFFER);
+	buf.mtype = 1;
     strcpy(buf.mtext, "1");
 	enviarmsg(fd_work_ret,&buf, sizeof(long) + sizeof(char));
 
 	//there is a new task, asks for it
     memset(buf.mtext, 0, MAX_BUFFER);
-    buf.mtype = 0;
+    buf.mtype = 1;
 	recibirmsg(fd_work, &buf,MAX_BUFFER,0);
 	string work(buf.mtext);
 	return work;

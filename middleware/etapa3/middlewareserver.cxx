@@ -65,7 +65,7 @@ int main(){
     socklen_t clilen = sizeof(cli_addr);
     safelog("Servidor esperando traductores en el puerto %d\n", SERVER_PORT);
     safelog("Recursos iniciados correctamente\n");
-    int clientID = 0;
+    int clientID = 1;
     while(1) {
         int fdclient = accept(fd_server, (struct sockaddr *) &cli_addr, &clilen);
         if (fdclient < 0) {

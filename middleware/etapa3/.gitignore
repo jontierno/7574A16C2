@@ -1,3 +1,9 @@
 build
 .idea
 README.html
+demo/cliente/Cliente
+demo/cliente/Destructor
+demo/cliente/MiddlewareServer
+demo/cliente/MiddlewareWorker
+demo/traductor/MiddlewareClient
+demo/traductor/Traductor
